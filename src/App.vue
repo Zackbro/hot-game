@@ -1,28 +1,32 @@
 <template>
-  <div id="app">
-    <img src="./assets/logo.png">
-    <hello></hello>
-  </div>
+    <div class="facegame">
+    <Hello></Hello>
+    </div>
 </template>
 
 <script>
-import Hello from './components/Hello'
+  import Hello from './components/Hello'
 
-export default {
-  name: 'app',
-  components: {
-    Hello
+  export default {
+    name: 'app',
+    components: {
+      Hello
+    }
   }
-}
 </script>
 
 <style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+  body {
+    margin: 0;
+  }
+  .facegame {
+    width: 100%;
+    height: 100%;
+    background-image: url(./assets/img-bg/upload_ie4dky3dheydeyrrgyzdambqgiyde_640x1059.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    overflow: hidden;
+  }
+
 </style>
