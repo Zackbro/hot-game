@@ -51,7 +51,7 @@
     background-position: center center;
   }
   .sub-title {
-    margin-top: 20px;
+    margin-top: 8px;
     width:100%;
     height: 32px;
     text-align: center;
@@ -89,6 +89,7 @@
   .photo-list li {
     float: left;
     padding-top: 10px;
+    margin-left: 10px;
     width: 109px;
     height: 112px;
   }
@@ -96,9 +97,6 @@
     width: 109px;
     height: 112px;
     border: 2px solid #010;
-  }
-  li:nth-child(2) {
-  /*  margin: 0 10px;*/
   }
   footer {
    text-align: center;

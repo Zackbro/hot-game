@@ -1,16 +1,19 @@
 <template>
     <div class="facegame">
-    <Hello></Hello>
+    <!-- <Hello></Hello> -->
+    <Stage></Stage>
     </div>
 </template>
 
 <script>
   import Hello from './components/Hello'
+  import Stage from './components/Stage'
 
   export default {
     name: 'app',
     components: {
-      Hello
+      Hello,
+      Stage
     }
   }
 </script>
