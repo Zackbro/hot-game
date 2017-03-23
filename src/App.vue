@@ -1,19 +1,30 @@
 <template>
     <div class="facegame">
-    <!-- <Hello></Hello> -->
-    <Stage></Stage>
+      <Index @change='change'></Index>
+      <Stage :isShow='isShow'></Stage>
     </div>
 </template>
 
 <script>
-  import Hello from './components/Hello'
+  import Index from './components/Index'
   import Stage from './components/Stage'
 
   export default {
     name: 'app',
+    data () {
+      return {
+        isShow : true
+      }
+    },
     components: {
-      Hello,
+      Index,
       Stage
+    },
+    methods: {
+      change: function (val) {
+        this.isShow = val;
+        console.log(this.isShow);
+      }
     }
   }
 </script>
@@ -21,6 +32,12 @@
 <style>
   body {
     margin: 0;
+  }
+  .show {
+    display: block;
+  }
+  .hide {
+    display: none;
   }
   .facegame {
     width: 100%;

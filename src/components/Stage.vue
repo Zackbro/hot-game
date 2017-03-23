@@ -1,12 +1,13 @@
 <template>
-  <div class="gamescreen" id="gameScreen">
+  <div class="gamescreen" id="gameScreen" :class="[isActive ? hide : show]">
+
     <div class="stage">
       <div class="di"><img src="../assets/img-peo/upload_ifrdazjvg42dkyrrgyzdambqmeyde_91x85.png" alt=""></div>
       <div class="ji" id="gamestageNum"><img src="../assets/img-peo/upload_ifrdqolegjstgyrrgyzdambqmeyde_91x70.png" alt=""></div>
       <div class="guan"><img src="../assets/img-peo/upload_ifrdcytfg42dkyrrgyzdambqmeyde_85x85.png" alt=""></div>
     </div>
 
-    <div class="gamestage" id="gamestage" style="display: none">
+    <div class="gamestage" id="gamestage" :class="[isActive ? hide : show]">
       <img src="../assets/img-peo/upload_ie4dgmlbhfsdcyrrgyzdambqgiyde_440x118.png" class="stage-font"/>
       <img src="../assets/img-peo/loading_ieydcyrumvrgknzumuytambqgyyde_100x100.gif" class="img-show" id="imgShow"/>
       <p class="hot"><i></i>红人：<span id="nameShow"></span></p>
@@ -15,42 +16,55 @@
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4 progressbar animated3"  id="seeProgress"/>
+            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4 progressbar animated3"  id="seeProgress" style="left:-50%" />
           </div>
         </div></dd>
       </dl>
     </div>
 
-    <div class="game" id="game">
-            <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
-            <ul class="avatar-list" id="avatarList">
-                <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-                <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-                <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-                <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-                <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-                <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-            </ul>
-            <p class="hot">谁是<i></i>红人：<span id="hotname"></span></p>
-            <dl class="time-section">
-                <dt> <span id="timeSecondBox">10</span>s</dt>
-                <dd><div class="jindu1">
-                        <div class="jindu2"></div>
-                        <div class="jindu3">
-                            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4" id="timeProgress"/>
-                        </div>
-                    </div></dd>
-            </dl>
-        </div>
+    <div class="game" id="game" :class="[isActive ? show : hide]">
+      <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
+      <ul class="avatar-list" id="avatarList">
+        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+      </ul>
+      <p class="hot">谁是<i></i>红人：<span id="hotname"></span></p>
+      <dl class="time-section">
+        <dt> <span id="timeSecondBox">10</span>s</dt>
+        <dd><div class="jindu1">
+          <div class="jindu2"></div>
+          <div class="jindu3">
+            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4" id="timeProgress"/>
+          </div>
+        </div></dd>
+      </dl>
+    </div>
   </div>
 </template>
 
 <script>
   export default {
-    name: 'hello',
+    name: 'Stage',
     data () {
       return {
-        imgList: []
+        isActive: this.isShow,
+        show: 'show',
+        hide: 'hide'
+      }
+    },
+    props: {
+      isShow: {
+        type: Boolean,
+        default: true
+      }
+    },
+    watch: {
+      isShow(val) {
+        this.isActive= val; 
       }
     }
   }
