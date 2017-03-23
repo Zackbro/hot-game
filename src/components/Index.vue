@@ -27,8 +27,6 @@ import GridEvents from '../event.js'
     data () {
       return {
         isActive: this.indexShow,
-        show: 'show',
-        hide: 'hide'
       }
     },
     props: {

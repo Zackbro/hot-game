@@ -9,7 +9,7 @@
 
     <div class="gamestage" id="gamestage" v-show="!stageShow">
       <img src="../assets/img-peo/upload_ie4dgmlbhfsdcyrrgyzdambqgiyde_440x118.png" class="stage-font"/>
-      <img src="../assets/img-peo/loading_ieydcyrumvrgknzumuytambqgyyde_100x100.gif" class="img-show" id="imgShow"/>
+      <img :src=img.group class="img-show" id="imgShow" @click="play"/>
       <p class="hot"><i></i>红人：<span id="nameShow"></span></p>
       <dl class="time-section">
         <dt> <span id="seeSecondBox" ref='seeSecondBox'>5</span>s</dt>
@@ -48,11 +48,14 @@
 
 <script>
   import GridEvents from '../event.js'
-
+  import {stageArray, bisai, fontArray}from '../constant.js'
+ 
   let time = 5;
   let total = 5;
   let see;
   let stopTimeout = false;
+  let guan, easy, normal, hard, showGirl
+
   export default {
     name: 'Stage',
     data () {
@@ -60,6 +63,7 @@
         screenShow: this.indexShow,
         stageShow: this.indexShow,
         gameShow: false,
+        img : {}
       }
     },
     props: {
@@ -108,6 +112,40 @@
       test: function() {
         this.stageShow = true;
         this.gameShow = true;
+      },
+      randomOrder: function(targetArray) {
+        var arrayLength = targetArray.length;
+        var tempArray1 = [];
+        for (var i = 0; i < arrayLength; i++) {
+            tempArray1[i] = i
+        }
+        var tempArray2 = [];
+        for (var i = 0; i < arrayLength; i++) {
+            tempArray2[i] = tempArray1.splice(Math.floor(Math.random() * tempArray1.length), 1)
+        }
+        var tempArray3 = [];
+        for (var i = 0; i < arrayLength; i++) {
+            tempArray3[i] = targetArray[tempArray2[i]]
+        }
+        return tempArray3
+      },
+      play: function () {
+        guan = guan || 1;
+        if (guan == 1) {
+            easy = this.randomOrder(bisai.easy);
+            console.log(easy);
+            normal = this.randomOrder(bisai.normal);
+            hard = this.randomOrder(bisai.hard);
+        }
+        if (guan >= 1 && guan <= 7) {
+            showGirl = easy[guan - 1];
+        } else if (guan > 7 && guan <= 15) {
+            showGirl = normal[guan - 8];
+        } else {
+            showGirl = hard[guan - 16];
+        }
+        this.img = showGirl;
+        console.log(this.img);
       }
     }
   }
