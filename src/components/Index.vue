@@ -1,5 +1,5 @@
 <template>
-  <div class="gamestart" id="gamestart" :class="[isActive ? show : hide]">
+  <div class="gamestart" id="gamestart" v-show="isActive">
     <div class="title"></div>
     <div class="sub-title she"></div>
     <div class="girls">
@@ -26,19 +26,19 @@ import GridEvents from '../event.js'
   export default {
     data () {
       return {
-        isActive: this.isShow,
+        isActive: this.indexShow,
         show: 'show',
         hide: 'hide'
       }
     },
     props: {
-      isShow: {
+      indexShow: {
         type: Boolean,
         default: true
       }
     },
     watch: {
-      isShow(val) {
+      indexShow(val) {
         this.isActive= val; 
       },
       isActive(val) {

@@ -1,5 +1,5 @@
 <template>
-  <div class="gamescreen" id="gameScreen" :class="[isActive ? hide : show]">
+  <div class="gamescreen" id="gameScreen" v-show="!screenShow">
 
     <div class="stage">
       <div class="di"><img src="../assets/img-peo/upload_ifrdazjvg42dkyrrgyzdambqmeyde_91x85.png" alt=""></div>
@@ -7,7 +7,7 @@
       <div class="guan"><img src="../assets/img-peo/upload_ifrdcytfg42dkyrrgyzdambqmeyde_85x85.png" alt=""></div>
     </div>
 
-    <div class="gamestage" id="gamestage" :class="[isActive ? hide : show]">
+    <div class="gamestage" id="gamestage" v-show="!stageShow">
       <img src="../assets/img-peo/upload_ie4dgmlbhfsdcyrrgyzdambqgiyde_440x118.png" class="stage-font"/>
       <img src="../assets/img-peo/loading_ieydcyrumvrgknzumuytambqgyyde_100x100.gif" class="img-show" id="imgShow"/>
       <p class="hot"><i></i>红人：<span id="nameShow"></span></p>
@@ -22,7 +22,7 @@
       </dl>
     </div>
 
-    <div class="game" id="game" :class="[isActive ? show : hide]">
+    <div class="game" id="game" v-show="gameShow">
       <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
       <ul class="avatar-list" id="avatarList">
         <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
@@ -57,31 +57,33 @@
     name: 'Stage',
     data () {
       return {
-        isActive: this.isShow,
-        show: 'show',
-        hide: 'hide'
+        screenShow: this.indexShow,
+        stageShow: this.indexShow,
+        gameShow: false,
       }
     },
     props: {
-      isShow: {
+      indexShow: {
         type: Boolean,
         default: true
       }
     },
     watch: {
-      isShow(val) {
-        this.isActive= val;
+      indexShow(val) {
+        this.screenShow= val;
+        this.stageShow= val;
       }
     },
     mounted() {
       // this.$nextTick(() => {
       // });
-      GridEvents.$on('start', () => { //Hub接收事件
+      GridEvents.$on('start', () => { //GridEvent接收事件
           this.progressTimeOut(time, total, 'seeProgress', see, this.test)
-    });
+      });
       
     },
     methods: {
+      // 进度条
       progressTimeOut: function (variant, total, progressBoxId, type, callback) {
         var that = this;
         function progress() {
@@ -92,7 +94,6 @@
                     if (typeof(callback) === 'function') callback();
                 }
             } else {
-                // console.log(that.$refs.seeSecondBox);
                 // 让时间等于5s
                 that.$refs.seeSecondBox.innerHTML = variant;
                 if (progressBoxId == 'seeProgress') {
@@ -105,7 +106,8 @@
         progress();
       },
       test: function() {
-        console.log(this.$refs.seeSecondBox)
+        this.stageShow = true;
+        this.gameShow = true;
       }
     }
   }

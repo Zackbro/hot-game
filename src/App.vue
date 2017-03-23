@@ -1,7 +1,9 @@
 <template>
     <div class="facegame">
+      <!-- $emit -->
       <Index @change='change'></Index>
-      <Stage :isShow='isShow'></Stage>
+      <!-- watch -->
+      <Stage :indexShow='indexShow'></Stage>
     </div>
 </template>
 
@@ -13,7 +15,7 @@
     name: 'app',
     data () {
       return {
-        isShow : true
+        indexShow : true
       }
     },
     components: {
@@ -22,8 +24,7 @@
     },
     methods: {
       change: function (val) {
-        this.isShow = val;
-        console.log(this.isShow);
+        this.indexShow = val;
       }
     }
   }
