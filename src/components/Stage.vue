@@ -12,11 +12,11 @@
       <img src="../assets/img-peo/loading_ieydcyrumvrgknzumuytambqgyyde_100x100.gif" class="img-show" id="imgShow"/>
       <p class="hot"><i></i>红人：<span id="nameShow"></span></p>
       <dl class="time-section">
-        <dt> <span id="seeSecondBox">5</span>s</dt>
+        <dt> <span id="seeSecondBox" ref='seeSecondBox'>5</span>s</dt>
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4 progressbar animated3"  id="seeProgress" style="left:-50%" />
+            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4 progressbar animated3"  id="seeProgress" ref="seeProgress"/>
           </div>
         </div></dd>
       </dl>
@@ -47,6 +47,12 @@
 </template>
 
 <script>
+  import GridEvents from '../event.js'
+
+  let time = 5;
+  let total = 5;
+  let see;
+  let stopTimeout = false;
   export default {
     name: 'Stage',
     data () {
@@ -64,7 +70,42 @@
     },
     watch: {
       isShow(val) {
-        this.isActive= val; 
+        this.isActive= val;
+      }
+    },
+    mounted() {
+      // this.$nextTick(() => {
+      // });
+      GridEvents.$on('start', () => { //Hub接收事件
+          this.progressTimeOut(time, total, 'seeProgress', see, this.test)
+    });
+      
+    },
+    methods: {
+      progressTimeOut: function (variant, total, progressBoxId, type, callback) {
+        var that = this;
+        function progress() {
+            if (variant < 0 || stopTimeout) {
+                clearTimeout(type);
+                variant = total;
+                if (!stopTimeout) {
+                    if (typeof(callback) === 'function') callback();
+                }
+            } else {
+                // console.log(that.$refs.seeSecondBox);
+                // 让时间等于5s
+                that.$refs.seeSecondBox.innerHTML = variant;
+                if (progressBoxId == 'seeProgress') {
+                    that.$refs.seeProgress.style.left = ( - (1 - variant / total) * 100) + '%';
+                }
+                variant--;
+                type = setTimeout(progress, 1000);
+            }
+        }
+        progress();
+      },
+      test: function() {
+        console.log(this.$refs.seeSecondBox)
       }
     }
   }
@@ -164,6 +205,16 @@
     width: 224px;
     overflow: hidden;
     height: 12px;
+  }
+  .jindu4 {
+    vertical-align: top;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    -webkit-transition: left 1s ease;
+    -moz-transition: left 1s ease;
+    transition: left 1s ease;
   }
 
 

@@ -21,6 +21,8 @@
 </template>
 
 <script>
+import GridEvents from '../event.js'
+
   export default {
     data () {
       return {
@@ -36,17 +38,18 @@
       }
     },
     watch: {
-        isShow(val) {
-            this.isActive= val; 
-        },
-        isActive(val) {
-          this.$emit('change', val);
-        }
+      isShow(val) {
+        this.isActive= val; 
+      },
+      isActive(val) {
+        this.$emit('change', val);
+      }
     },
     methods: {
       start: function () {
         this.isActive = false;
         console.log(this.isActive);
+        GridEvents.$emit('start');
       }
     }
   }

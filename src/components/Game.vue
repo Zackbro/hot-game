@@ -29,6 +29,11 @@
       return {
         imgList: []
       }
+    },
+    methods: {
+      progressTimeOut: function () {
+        console.log('progressTimeOut');
+      }
     }
   }
 </script>
