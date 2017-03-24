@@ -103,6 +103,7 @@
         function progress() {
             if (variant < 0 || stopTimeout) {
                 clearTimeout(type);
+                console.log(type)
                 variant = total;
                 if (!stopTimeout) {
                     if (typeof(callback) === 'function') callback();
@@ -157,20 +158,23 @@
             showGirl = hard[guan - 16];
         }
         this.chooseGirl = showGirl;
-        // console.log(this.stageTime);
-        // 开倒计时
+        // 倒计时
+        stopTimeout = false;
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       },
       changeScreen: function() {
         let temp = this.chooseGirl.list;
         this.listChange = this.randomOrder(temp);
+        console.log(this.gameTime);
         this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
       },
       compare: function (src) {
         if (src.indexOf(this.chooseGirl.list[0]) > -1) {
           console.log('you win');
+          stopTimeout = true;
+          clearTimeout(timeLeft);
           this.stage++;
-          setTimeout(this.nextStage(), 1000);
+          this.nextStage();
 
         } else {
           this.gameTime = 10;
