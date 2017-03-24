@@ -3,14 +3,14 @@
 
     <div class="stage">
       <div class="di"><img src="../assets/img-peo/upload_ifrdazjvg42dkyrrgyzdambqmeyde_91x85.png" alt=""></div>
-      <div class="ji" id="gamestageNum"><img src="../assets/img-peo/upload_ifrdqolegjstgyrrgyzdambqmeyde_91x70.png" alt=""></div>
+      <div class="ji" id="gamestageNum"><img :src=stageArray[stage-1] alt=""></div>
       <div class="guan"><img src="../assets/img-peo/upload_ifrdcytfg42dkyrrgyzdambqmeyde_85x85.png" alt=""></div>
     </div>
 
     <div class="gamestage" id="gamestage" v-show="!stageShow">
       <img src="../assets/img-peo/upload_ie4dgmlbhfsdcyrrgyzdambqgiyde_440x118.png" class="stage-font"/>
-      <img :src=img.group class="img-show" id="imgShow" @click="play"/>
-      <p class="hot"><i></i>红人：<span id="nameShow"></span></p>
+      <img :src=chooseGirl.group class="img-show" id="imgShow"/>
+      <p class="hot"><i></i>红人：{{chooseGirl.name}}<span id="nameShow"></span></p>
       <dl class="time-section">
         <dt> <span id="seeSecondBox" ref='seeSecondBox'>5</span>s</dt>
         <dd><div class="jindu1">
@@ -25,20 +25,15 @@
     <div class="game" id="game" v-show="gameShow">
       <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
       <ul class="avatar-list" id="avatarList">
-        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
-        <li onclick="compare(this)"><img src="../assets/img-peo/upload_ie4gezrygjrdcmrrgyzdambqgiyde_218x286.jpg" alt=""></li>
+        <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""></li>
       </ul>
-      <p class="hot">谁是<i></i>红人：<span id="hotname"></span></p>
+      <p class="hot">谁是<i></i>红人：{{chooseGirl.name}}<span id="hotname"></span></p>
       <dl class="time-section">
-        <dt> <span id="timeSecondBox">10</span>s</dt>
+        <dt> <span id="timeSecondBox" ref='timeSecondBox'>10</span>s</dt>
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4" id="timeProgress"/>
+            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4" id="timeProgress" ref="timeProgress"/>
           </div>
         </div></dd>
       </dl>
@@ -48,14 +43,14 @@
 
 <script>
   import GridEvents from '../event.js'
-  import {stageArray, bisai, fontArray}from '../constant.js'
+  import {stageArray, bisai, fontArray} from '../constant.js'
  
   let time = 5;
   let total = 5;
   let see;
   let stopTimeout = false;
   let guan, easy, normal, hard, showGirl
-
+  // chooseGirl.list[0] 是正确答案
   export default {
     name: 'Stage',
     data () {
@@ -63,7 +58,11 @@
         screenShow: this.indexShow,
         stageShow: this.indexShow,
         gameShow: false,
-        img : {}
+        chooseGirl: {},
+        listChange: [],
+        nameChange: '',
+        stage: 1,
+        stageArray: stageArray
       }
     },
     props: {
@@ -82,13 +81,14 @@
       // this.$nextTick(() => {
       // });
       GridEvents.$on('start', () => { //GridEvent接收事件
-          this.progressTimeOut(time, total, 'seeProgress', see, this.test)
+          this.play();
+          // this.progressTimeOut(time, total, 'seeProgress', see, this.showGame)
       });
       
     },
     methods: {
       // 进度条
-      progressTimeOut: function (variant, total, progressBoxId, type, callback) {
+      progressTimeOut: function (variant, total, progressBoxId, time, type, callback) {
         var that = this;
         function progress() {
             if (variant < 0 || stopTimeout) {
@@ -98,27 +98,31 @@
                     if (typeof(callback) === 'function') callback();
                 }
             } else {
-                // 让时间等于5s
-                that.$refs.seeSecondBox.innerHTML = variant;
-                if (progressBoxId == 'seeProgress') {
-                    that.$refs.seeProgress.style.left = ( - (1 - variant / total) * 100) + '%';
-                }
+                // 让时间等于5
+                that.$refs[time].innerHTML = variant;
+                // if (progressBoxId == 'seeProgress') {
+                    that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
+                // }
                 variant--;
                 type = setTimeout(progress, 1000);
             }
         }
         progress();
       },
-      test: function() {
+      showGame: function() {
         this.stageShow = true;
         this.gameShow = true;
+        // 改变gameshow
+        this.changeScreen();
       },
+      // easy 随机排序， 
       randomOrder: function(targetArray) {
         var arrayLength = targetArray.length;
         var tempArray1 = [];
         for (var i = 0; i < arrayLength; i++) {
             tempArray1[i] = i
         }
+        // 将每一项的选项打乱
         var tempArray2 = [];
         for (var i = 0; i < arrayLength; i++) {
             tempArray2[i] = tempArray1.splice(Math.floor(Math.random() * tempArray1.length), 1)
@@ -129,11 +133,10 @@
         }
         return tempArray3
       },
-      play: function () {
+      play: function (guan) {
         guan = guan || 1;
         if (guan == 1) {
             easy = this.randomOrder(bisai.easy);
-            console.log(easy);
             normal = this.randomOrder(bisai.normal);
             hard = this.randomOrder(bisai.hard);
         }
@@ -144,8 +147,34 @@
         } else {
             showGirl = hard[guan - 16];
         }
-        this.img = showGirl;
-        console.log(this.img);
+        this.chooseGirl = showGirl;
+        // console.log(this.chooseGirl);
+        // 开倒计时
+        this.progressTimeOut(time, total, 'seeProgress', 'seeSecondBox', see, this.showGame)
+      },
+      changeScreen: function() {
+        let temp = this.chooseGirl.list;
+        this.listChange = this.randomOrder(temp);
+        this.progressTimeOut(10, 10, 'timeProgress', 'timeSecondBox', see, this.fail)
+      },
+      compare: function (src) {
+        if (src.indexOf(this.chooseGirl.list[0]) > -1) {
+          console.log('you win');
+          this.stage++;
+          this.nextStage();
+          // this.play(this.stage);
+        } else {
+          this.fail();
+        }
+      },
+      // 显示stage
+      nextStage: function () {
+        this.gameShow = false;
+        this.stageShow = false;
+        this.play(this.stage);
+      },
+      fail: function () {
+        console.log('fail');
       }
     }
   }
