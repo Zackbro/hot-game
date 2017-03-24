@@ -12,7 +12,7 @@
       <img :src=chooseGirl.group class="img-show" id="imgShow"/>
       <p class="hot"><i></i>红人：{{chooseGirl.name}}<span id="nameShow"></span></p>
       <dl class="time-section">
-        <dt> <span id="seeSecondBox" ref='seeSecondBox'>5</span>s</dt>
+        <dt> <span id="seeSecondBox" ref='seeSecondBox'>{{stageTime}}</span>s</dt>
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
@@ -29,7 +29,7 @@
       </ul>
       <p class="hot">谁是<i></i>红人：{{chooseGirl.name}}<span id="hotname"></span></p>
       <dl class="time-section">
-        <dt> <span id="timeSecondBox" ref='timeSecondBox'>10</span>s</dt>
+        <dt> <span id="timeSecondBox" ref='timeSecondBox'>{{gameTime}}</span>s</dt>
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
@@ -45,9 +45,8 @@
   import GridEvents from '../event.js'
   import {stageArray, bisai, fontArray} from '../constant.js'
  
-  let time = 5;
-  let total = 5;
   let see;
+  let timeLeft;
   let stopTimeout = false;
   let guan, easy, normal, hard, showGirl
   // chooseGirl.list[0] 是正确答案
@@ -55,6 +54,10 @@
     name: 'Stage',
     data () {
       return {
+        stageTime : 5,
+        totalStage: 5,
+        gameTime : 10,
+        totalGame: 10,
         screenShow: this.indexShow,
         stageShow: this.indexShow,
         gameShow: false,
@@ -62,7 +65,8 @@
         listChange: [],
         nameChange: '',
         stage: 1,
-        stageArray: stageArray
+        stageArray: stageArray,
+        maskShow : false
       }
     },
     props: {
@@ -75,21 +79,27 @@
       indexShow(val) {
         this.screenShow= val;
         this.stageShow= val;
+      },
+      maskShow(val) {
+         this.$emit('maskShow', val);
       }
     },
     mounted() {
-      // this.$nextTick(() => {
-      // });
       GridEvents.$on('start', () => { //GridEvent接收事件
           this.play();
-          // this.progressTimeOut(time, total, 'seeProgress', see, this.showGame)
       });
-      
+      GridEvents.$on('replay', () => { //GridEvent接收事件
+          this.maskShow = false;
+          this.stageShow = false;
+          this.gameShow = false;
+          this.replay();          
+      });     
     },
     methods: {
       // 进度条
       progressTimeOut: function (variant, total, progressBoxId, time, type, callback) {
         var that = this;
+        // console.log(variant);
         function progress() {
             if (variant < 0 || stopTimeout) {
                 clearTimeout(type);
@@ -99,10 +109,9 @@
                 }
             } else {
                 // 让时间等于5
+                console.log(variant);
                 that.$refs[time].innerHTML = variant;
-                // if (progressBoxId == 'seeProgress') {
-                    that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
-                // }
+                that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
                 variant--;
                 type = setTimeout(progress, 1000);
             }
@@ -148,23 +157,26 @@
             showGirl = hard[guan - 16];
         }
         this.chooseGirl = showGirl;
-        // console.log(this.chooseGirl);
+        // console.log(this.stageTime);
         // 开倒计时
-        this.progressTimeOut(time, total, 'seeProgress', 'seeSecondBox', see, this.showGame)
+        this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       },
       changeScreen: function() {
         let temp = this.chooseGirl.list;
         this.listChange = this.randomOrder(temp);
-        this.progressTimeOut(10, 10, 'timeProgress', 'timeSecondBox', see, this.fail)
+        this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
       },
       compare: function (src) {
         if (src.indexOf(this.chooseGirl.list[0]) > -1) {
           console.log('you win');
           this.stage++;
-          this.nextStage();
-          // this.play(this.stage);
+          setTimeout(this.nextStage(), 1000);
+
         } else {
+          this.gameTime = 10;
+          stopTimeout = true;
           this.fail();
+          return false;
         }
       },
       // 显示stage
@@ -174,7 +186,13 @@
         this.play(this.stage);
       },
       fail: function () {
-        console.log('fail');
+        this.maskShow = true;
+      },
+      replay: function() {
+        // console.log('replay');
+        clearTimeout(timeLeft);
+        stopTimeout = false;
+        this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       }
     }
   }

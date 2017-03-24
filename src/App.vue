@@ -3,28 +3,36 @@
       <!-- $emit -->
       <Index @change='change'></Index>
       <!-- watch -->
-      <Stage :indexShow='indexShow'></Stage>
+      <Stage :indexShow='indexShow' @maskShow='maskShow'></Stage>
+      <Maskdark v-show="fail"></Maskdark>
     </div>
 </template>
 
 <script>
   import Index from './components/Index'
   import Stage from './components/Stage'
+  import Maskdark from './components/Maskdark'
 
   export default {
     name: 'app',
     data () {
       return {
-        indexShow : true
+        indexShow : true,
+        fail: false
       }
     },
     components: {
       Index,
-      Stage
+      Stage,
+      Maskdark
     },
     methods: {
       change: function (val) {
         this.indexShow = val;
+      },
+      maskShow: function (val) {
+        this.fail = val;
+        // console.log(this.fail);
       }
     }
   }

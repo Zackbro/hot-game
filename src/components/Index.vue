@@ -46,7 +46,6 @@ import GridEvents from '../event.js'
     methods: {
       start: function () {
         this.isActive = false;
-        console.log(this.isActive);
         GridEvents.$emit('start');
       }
     }
