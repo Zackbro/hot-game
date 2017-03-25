@@ -66,7 +66,8 @@
         nameChange: '',
         stage: 1,
         stageArray: stageArray,
-        maskShow : false
+        maskShow : false,
+        winTimeout: false
       }
     },
     props: {
@@ -99,18 +100,23 @@
       // 进度条
       progressTimeOut: function (variant, total, progressBoxId, time, type, callback) {
         var that = this;
-        // console.log(variant);
         function progress() {
             if (variant < 0 || stopTimeout) {
                 clearTimeout(type);
-                console.log(type)
+                console.log(type + 'clear')
                 variant = total;
+                if (that.winTimeout) {
+                  that.stage++;
+                  that.nextStage();
+                  that.winTimeout = false;
+                  that.stopTimeout = true;
+                  return;
+                }
                 if (!stopTimeout) {
                     if (typeof(callback) === 'function') callback();
                 }
             } else {
                 // 让时间等于5
-                console.log(variant);
                 that.$refs[time].innerHTML = variant;
                 that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
                 variant--;
@@ -120,10 +126,12 @@
         progress();
       },
       showGame: function() {
+        console.log('游戏显示回调');
         this.stageShow = true;
         this.gameShow = true;
-        // 改变gameshow
-        this.changeScreen();
+        let temp = this.chooseGirl.list;
+        this.listChange = this.randomOrder(temp);
+        this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
       },
       // easy 随机排序， 
       randomOrder: function(targetArray) {
@@ -142,6 +150,26 @@
             tempArray3[i] = targetArray[tempArray2[i]]
         }
         return tempArray3
+      },
+      compare: function (src) {
+        if (src.indexOf(this.chooseGirl.list[0]) > -1) {
+          console.log('you win');
+          this.gameTime = 10;
+          stopTimeout = true;
+          this.winTimeout = true;
+
+        } else {
+          this.gameTime = 10;
+          stopTimeout = true;
+          this.fail();
+          return false;
+        }
+      },
+      // 显示stage
+      nextStage: function () {
+        this.gameShow = false;
+        this.stageShow = false;
+        this.play(this.stage);
       },
       play: function (guan) {
         guan = guan || 1;
@@ -162,39 +190,11 @@
         stopTimeout = false;
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       },
-      changeScreen: function() {
-        let temp = this.chooseGirl.list;
-        this.listChange = this.randomOrder(temp);
-        console.log(this.gameTime);
-        this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
-      },
-      compare: function (src) {
-        if (src.indexOf(this.chooseGirl.list[0]) > -1) {
-          console.log('you win');
-          stopTimeout = true;
-          clearTimeout(timeLeft);
-          this.stage++;
-          this.nextStage();
-
-        } else {
-          this.gameTime = 10;
-          stopTimeout = true;
-          this.fail();
-          return false;
-        }
-      },
-      // 显示stage
-      nextStage: function () {
-        this.gameShow = false;
-        this.stageShow = false;
-        this.play(this.stage);
-      },
       fail: function () {
+        console.log('失败回调');
         this.maskShow = true;
       },
       replay: function() {
-        // console.log('replay');
-        clearTimeout(timeLeft);
         stopTimeout = false;
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       }
