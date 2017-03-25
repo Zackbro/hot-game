@@ -2,13 +2,13 @@
   <div class="gamescreen" id="gameScreen" v-show="!screenShow">
 
     <div class="stage">
-      <div class="di"><img src="../assets/img-peo/upload_ifrdazjvg42dkyrrgyzdambqmeyde_91x85.png" alt=""></div>
+      <div class="di"><img :src=imgUrl.di alt=""></div>
       <div class="ji" id="gamestageNum"><img :src=stageArray[stage-1] alt=""></div>
-      <div class="guan"><img src="../assets/img-peo/upload_ifrdcytfg42dkyrrgyzdambqmeyde_85x85.png" alt=""></div>
+      <div class="guan"><img :src=imgUrl.guan alt=""></div>
     </div>
 
     <div class="gamestage" id="gamestage" v-show="!stageShow">
-      <img src="../assets/img-peo/upload_ie4dgmlbhfsdcyrrgyzdambqgiyde_440x118.png" class="stage-font"/>
+      <img :src=imgUrl.stage class="stage-font"/>
       <img :src=chooseGirl.group class="img-show" id="imgShow"/>
       <p class="hot"><i></i>红人：{{chooseGirl.name}}<span id="nameShow"></span></p>
       <dl class="time-section">
@@ -16,7 +16,7 @@
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4 progressbar animated3"  id="seeProgress" ref="seeProgress"/>
+            <img :src=imgUrl.second class="jindu4 progressbar animated3"  id="seeProgress" ref="seeProgress"/>
           </div>
         </div></dd>
       </dl>
@@ -33,7 +33,7 @@
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img src="../assets/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png" class="jindu4" id="timeProgress" ref="timeProgress"/>
+            <img :src=imgUrl.second class="jindu4" id="timeProgress" ref="timeProgress"/>
           </div>
         </div></dd>
       </dl>
@@ -43,6 +43,7 @@
 
 <script>
   import GridEvents from '../event.js'
+  import img from '../img.js'
   import {stageArray, bisai, fontArray} from '../constant.js'
  
   let see;
@@ -54,6 +55,7 @@
     name: 'Stage',
     data () {
       return {
+        imgUrl: img,
         stageTime : 5,
         totalStage: 5,
         gameTime : 10,
@@ -191,12 +193,15 @@
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       },
       fail: function () {
-        console.log('失败回调');
+        this.maskNumber();
         this.maskShow = true;
       },
       replay: function() {
         stopTimeout = false;
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
+      },
+      maskNumber: function () {
+         GridEvents.$emit('maskNumber', this.stage);
       }
     }
   }
@@ -274,7 +279,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-image: url(../assets/img-bg/upload_ie3wiojrgrqteyrrgyzdambqgayde_546x47.png);
+    background-image: url(../../static/img-bg/upload_ie3wiojrgrqteyrrgyzdambqgayde_546x47.png);
   }
   .jindu2 {
     position: absolute;
@@ -286,7 +291,7 @@
     background-size: contain;
     background-repeat: no-repeat;
     background-position: 50% 50%;
-    background-image: url(../assets/img-bg/upload_ifrwkm3bgrqteyrrgyzdambqhayde_89x85.png);
+    background-image: url(../../static/img-bg/upload_ifrwkm3bgrqteyrrgyzdambqhayde_89x85.png);
   }
   .jindu3 {
     position: absolute;

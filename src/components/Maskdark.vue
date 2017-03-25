@@ -9,7 +9,7 @@
     </div>
     <div class="share-download" id="shareAll" style="display:none"></div>
     <div class="share-box">
-      <div class="share-text" id="shareText">恭喜你！通关成功！你简直就是网红收割机王思聪好么！</div>
+      <div class="share-text" id="shareText">{{font}}</div>
       <ul class="share-list">
         <li id="bufu" @click="replay"><div class="share-btn share-bufu"></div></li>
         <li id="xuanyao">
@@ -22,13 +22,32 @@
 
 <script>
 import GridEvents from '../event.js'
+import {stageArray, bisai, fontArray} from '../constant.js'
 
 export default {
+  data() {
+    return {
+      font: fontArray
+    }
+  },
   methods: {
     replay: function () {
       GridEvents.$emit('replay');
     }
-  }
+  },
+  mounted() {
+      GridEvents.$on('maskNumber', (stage) => { //GridEvent接收事件
+       console.log(stage);
+       if (stage >= 1 && stage <= 10) {
+            console.log(fontArray);
+            this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
+        } else if (stage >= 11 && stage <= 22) {
+            this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
+        } else {
+            this.font = fontArray.hard[0];
+        }
+      });     
+    },
 }
 </script>
 
