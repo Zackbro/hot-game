@@ -201,7 +201,7 @@
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       },
       maskNumber: function () {
-         GridEvents.$emit('maskNumber', this.stage);
+         GridEvents.$emit('maskNumber', this.stage, this.chooseGirl.list[0]);
       }
     }
   }

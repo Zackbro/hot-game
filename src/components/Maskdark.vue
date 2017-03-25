@@ -1,18 +1,14 @@
 <template>
   <div>
     <div class="share-bg"></div>
-    <div class="sicong1" id="sicong1" style="display:none">
-      <img src="">
-    </div>
-    <div class="sicong2" id="sicong2" style="display:none">
-      <img src="">
-    </div>
-    <div class="share-download" id="shareAll" style="display:none"></div>
-    <div class="share-box">
+    <div class="result" v-show="rightResult.show">
+        <img :src=rightResult.url>
+      </div>
+    <div class="share-box">   
       <div class="share-text" id="shareText">{{font}}</div>
       <ul class="share-list">
         <li id="bufu" @click="replay"><div class="share-btn share-bufu"></div></li>
-        <li id="xuanyao">
+        <li id="xuanyao" @click="showResult">
           <div class="share-btn who"></div>
         </li>
       </ul>
@@ -21,34 +17,42 @@
 </template>
 
 <script>
-import GridEvents from '../event.js'
-import {stageArray, bisai, fontArray} from '../constant.js'
+  import GridEvents from '../event.js'
+  import {stageArray, bisai, fontArray} from '../constant.js'
 
-export default {
-  data() {
-    return {
-      font: fontArray
-    }
-  },
-  methods: {
-    replay: function () {
-      GridEvents.$emit('replay');
-    }
-  },
-  mounted() {
-      GridEvents.$on('maskNumber', (stage) => { //GridEvent接收事件
-       console.log(stage);
-       if (stage >= 1 && stage <= 10) {
-            console.log(fontArray);
-            this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
+  export default {
+    data() {
+      return {
+        font: {},
+        rightResult: {
+          show: false,
+          url: ''
+        }
+      }
+    },
+    methods: {
+      replay: function () {
+        this.rightResult.show = false;
+        GridEvents.$emit('replay');
+      },
+      showResult: function () {
+        this.rightResult.show = true;
+      }
+    },
+    mounted() {
+      GridEvents.$on('maskNumber', (stage, right) => { //GridEvent接收事件
+        console.log(right);
+        this.rightResult.url = right;
+        if (stage >= 1 && stage <= 10) {
+          this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
         } else if (stage >= 11 && stage <= 22) {
-            this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
+          this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
         } else {
-            this.font = fontArray.hard[0];
+          this.font = fontArray.hard[0];
         }
       });     
     },
-}
+  }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -65,7 +69,6 @@ export default {
   .share-box {
     position: absolute;
     left: 0;
-    letter-spacing: 4px;
     z-index: 173;
     top: 35%;
     width: 100%;
@@ -95,6 +98,18 @@ export default {
   }
   .who {
     background-image: url(../../static/img-bg/upload_ie3wmnbshbrteyrrgyzdambqgayde_356x143.png);
+  }
+  .result {
+    text-align: center;
+  }
+  .result img {
+    position: absolute;
+    z-index: 173;
+    top: 40px;
+    left: 50%;
+    margin-left: -53px;
+    width: 106px;
+    height: 140px;
   }
   ul li {
     margin: 0;
