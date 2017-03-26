@@ -20,7 +20,7 @@
       </dl>
     </div>
     <div class="game" v-show="gameShow">
-      <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
+    <img :src=imgUrl.gameFont class="font-last"/>
       <ul class="avatar-list">
         <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""><div class="wrong" style="display: none"></div></li>
       </ul>
