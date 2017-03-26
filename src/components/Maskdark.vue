@@ -2,13 +2,13 @@
   <div>
     <div class="share-bg"></div>
     <div class="result" v-show="rightResult.show">
-        <img :src=rightResult.url>
-      </div>
+      <img :src=rightResult.url>
+    </div>
     <div class="share-box">   
-      <div class="share-text" id="shareText">{{font}}</div>
+      <div class="share-text">{{font}}</div>
       <ul class="share-list">
-        <li id="bufu" @click="replay"><div class="share-btn share-bufu"></div></li>
-        <li id="xuanyao" @click="showResult">
+        <li @click="replay"><div class="share-btn share-bufu"></div></li>
+        <li @click="showResult">
           <div class="share-btn who"></div>
         </li>
       </ul>
@@ -47,11 +47,11 @@
           this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
         } else if (stage >= 11 && stage <= 22) {
         // replace报错
-          this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
-        } else if(stage >22){
-          this.font = fontArray.hard[0];
-        }
-      });     
+        this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
+      } else if(stage >22){
+        this.font = fontArray.hard[0];
+      }
+    });     
     },
   }
 </script>

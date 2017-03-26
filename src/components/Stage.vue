@@ -1,39 +1,36 @@
 <template>
-  <div class="gamescreen" id="gameScreen" v-show="!screenShow">
-
+  <div class="gamescreen" v-show="!screenShow">
     <div class="stage">
       <div class="di"><img :src=imgUrl.di alt=""></div>
-      <div class="ji" id="gamestageNum"><img :src=stageArray[stage-1] alt=""></div>
+      <div class="ji"><img :src=stageArray[stage-1] alt=""></div>
       <div class="guan"><img :src=imgUrl.guan alt=""></div>
     </div>
-
-    <div class="gamestage" id="gamestage" v-show="!stageShow">
+    <div class="gamestage" v-show="!stageShow">
       <img :src=imgUrl.stage class="stage-font"/>
-      <img :src=chooseGirl.group class="img-show" id="imgShow"/>
+      <img :src=chooseGirl.group class="img-show"/>
       <p class="hot"><i></i>红人：{{chooseGirl.name}}<span id="nameShow"></span></p>
       <dl class="time-section">
-        <dt> <span id="seeSecondBox" ref='seeSecondBox'>{{stageTime}}</span>s</dt>
+        <dt> <span ref='seeSecondBox'>{{stageTime}}</span>s</dt>
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img :src=imgUrl.second class="jindu4 progressbar animated3"  id="seeProgress" ref="seeProgress"/>
+            <img :src=imgUrl.second class="jindu4 progressbar animated3" ref="seeProgress"/>
           </div>
         </div></dd>
       </dl>
     </div>
-
-    <div class="game" id="game" v-show="gameShow">
+    <div class="game" v-show="gameShow">
       <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
-      <ul class="avatar-list" id="avatarList">
-        <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""><div class="wrong" v-show="a"></div></li>
+      <ul class="avatar-list">
+        <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""><div class="wrong" style="display: none"></div></li>
       </ul>
-      <p class="hot">谁是<i></i>红人：{{chooseGirl.name}}<span id="hotname"></span></p>
+      <p class="hot">谁是<i></i>红人：{{chooseGirl.name}}<span></span></p>
       <dl class="time-section">
-        <dt> <span id="timeSecondBox" ref='timeSecondBox'>{{gameTime}}</span>s</dt>
+        <dt> <span ref='timeSecondBox'>{{gameTime}}</span>s</dt>
         <dd><div class="jindu1">
           <div class="jindu2"></div>
           <div class="jindu3">
-            <img :src=imgUrl.second class="jindu4" id="timeProgress" ref="timeProgress"/>
+            <img :src=imgUrl.second class="jindu4" ref="timeProgress"/>
           </div>
         </div></dd>
       </dl>
@@ -105,7 +102,6 @@
         function progress() {
           if (variant < 0 || stopTimeout) {
             clearTimeout(type);
-            console.log(type + 'clear')
             variant = total;
             if (that.winTimeout) {
               that.stage++;
@@ -128,7 +124,6 @@
             progress();
           },
           showGame: function() {
-            console.log('游戏显示回调');
             this.stageShow = true;
             this.gameShow = true;
             let temp = this.chooseGirl.list;
