@@ -25,7 +25,7 @@
     <div class="game" id="game" v-show="gameShow">
       <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
       <ul class="avatar-list" id="avatarList">
-        <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""></li>
+        <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""><div class="wrong" v-show="a"></div></li>
       </ul>
       <p class="hot">谁是<i></i>红人：{{chooseGirl.name}}<span id="hotname"></span></p>
       <dl class="time-section">
@@ -45,7 +45,7 @@
   import GridEvents from '../event.js'
   import img from '../img.js'
   import {stageArray, bisai, fontArray} from '../constant.js'
- 
+
   let see;
   let timeLeft;
   let stopTimeout = false;
@@ -84,18 +84,18 @@
         this.stageShow= val;
       },
       maskShow(val) {
-         this.$emit('maskShow', val);
-      }
-    },
-    mounted() {
+       this.$emit('maskShow', val);
+     }
+   },
+   mounted() {
       GridEvents.$on('start', () => { //GridEvent接收事件
-          this.play();
+        this.play();
       });
       GridEvents.$on('replay', () => { //GridEvent接收事件
-          this.maskShow = false;
-          this.stageShow = false;
-          this.gameShow = false;
-          this.replay();          
+        this.maskShow = false;
+        this.stageShow = false;
+        this.gameShow = false;
+        this.replay();          
       });     
     },
     methods: {
@@ -103,53 +103,53 @@
       progressTimeOut: function (variant, total, progressBoxId, time, type, callback) {
         var that = this;
         function progress() {
-            if (variant < 0 || stopTimeout) {
-                clearTimeout(type);
-                console.log(type + 'clear')
-                variant = total;
-                if (that.winTimeout) {
-                  that.stage++;
-                  that.nextStage();
-                  that.winTimeout = false;
-                  that.stopTimeout = true;
-                  return;
-                }
-                if (!stopTimeout) {
-                    if (typeof(callback) === 'function') callback();
-                }
-            } else {
+          if (variant < 0 || stopTimeout) {
+            clearTimeout(type);
+            console.log(type + 'clear')
+            variant = total;
+            if (that.winTimeout) {
+              that.stage++;
+              that.nextStage();
+              that.winTimeout = false;
+              that.stopTimeout = true;
+              return;
+            }
+            if (!stopTimeout) {
+              if (typeof(callback) === 'function') callback();
+            }
+          } else {
                 // 让时间等于5
                 that.$refs[time].innerHTML = variant;
                 that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
                 variant--;
                 type = setTimeout(progress, 1000);
+              }
             }
-        }
-        progress();
-      },
-      showGame: function() {
-        console.log('游戏显示回调');
-        this.stageShow = true;
-        this.gameShow = true;
-        let temp = this.chooseGirl.list;
-        this.listChange = this.randomOrder(temp);
-        this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
-      },
+            progress();
+          },
+          showGame: function() {
+            console.log('游戏显示回调');
+            this.stageShow = true;
+            this.gameShow = true;
+            let temp = this.chooseGirl.list;
+            this.listChange = this.randomOrder(temp);
+            this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
+          },
       // easy 随机排序， 
       randomOrder: function(targetArray) {
         var arrayLength = targetArray.length;
         var tempArray1 = [];
         for (var i = 0; i < arrayLength; i++) {
-            tempArray1[i] = i
+          tempArray1[i] = i
         }
         // 将每一项的选项打乱
         var tempArray2 = [];
         for (var i = 0; i < arrayLength; i++) {
-            tempArray2[i] = tempArray1.splice(Math.floor(Math.random() * tempArray1.length), 1)
+          tempArray2[i] = tempArray1.splice(Math.floor(Math.random() * tempArray1.length), 1)
         }
         var tempArray3 = [];
         for (var i = 0; i < arrayLength; i++) {
-            tempArray3[i] = targetArray[tempArray2[i]]
+          tempArray3[i] = targetArray[tempArray2[i]]
         }
         return tempArray3
       },
@@ -176,16 +176,16 @@
       play: function (guan) {
         guan = guan || 1;
         if (guan == 1) {
-            easy = this.randomOrder(bisai.easy);
-            normal = this.randomOrder(bisai.normal);
-            hard = this.randomOrder(bisai.hard);
+          easy = this.randomOrder(bisai.easy);
+          normal = this.randomOrder(bisai.normal);
+          hard = this.randomOrder(bisai.hard);
         }
         if (guan >= 1 && guan <= 7) {
-            showGirl = easy[guan - 1];
+          showGirl = easy[guan - 1];
         } else if (guan > 7 && guan <= 15) {
-            showGirl = normal[guan - 8];
+          showGirl = normal[guan - 8];
         } else {
-            showGirl = hard[guan - 16];
+          showGirl = hard[guan - 16];
         }
         this.chooseGirl = showGirl;
         // 倒计时
@@ -201,10 +201,10 @@
         this.progressTimeOut(this.stageTime, this.totalStage, 'seeProgress', 'seeSecondBox', see, this.showGame)
       },
       maskNumber: function () {
-         GridEvents.$emit('maskNumber', this.stage, this.chooseGirl.list[0]);
-      }
-    }
-  }
+       GridEvents.$emit('maskNumber', this.stage, this.chooseGirl.list[0]);
+     }
+   }
+ }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
@@ -323,6 +323,17 @@
     width: 214px;
     height: 28px;
   }
+  .wrong {
+    position: absolute;
+    top: 0;
+    left: 15px;
+    width: 82px;
+    height: 136px;
+    background-position: center center;
+    background-size: contain;
+    background-image: url(../../static/img-bg/upload_ie3tem3gha2teyrrgyzdambqgayde_135x135.png);
+    background-repeat: no-repeat;
+  }
   ul {
     width: 348.5px;
     height: 298px;
@@ -330,6 +341,7 @@
     padding: 0;
   }
   li {
+    position: relative;
     list-style: none;
     float: left;
     margin-right: 5px;
