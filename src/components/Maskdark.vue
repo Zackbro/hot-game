@@ -41,13 +41,14 @@
     },
     mounted() {
       GridEvents.$on('maskNumber', (stage, right) => { //GridEvent接收事件
-        console.log(right);
+        // 获得正确的答案
         this.rightResult.url = right;
         if (stage >= 1 && stage <= 10) {
           this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
         } else if (stage >= 11 && stage <= 22) {
+        // replace报错
           this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
-        } else {
+        } else if(stage >22){
           this.font = fontArray.hard[0];
         }
       });     
