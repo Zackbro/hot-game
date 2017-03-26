@@ -3,16 +3,11 @@
     <div class="title"></div>
     <div class="sub-title she"></div>
     <div class="girls">
-      <img src="../assets/img-peo/upload_ie4tqmjwmvrdcyrrgyzdambqgqyde_564x211.jpg" class="group-girls"/>
+      <img :src=imgUrl.indexGroup class="group-girls"/>
     </div>   
     <div class="sub-title animated fadeIn she-up"></div>
     <ul class="photo-list" id="photo-list">
-      <li class="animated fadeIn"><img src="../assets/img-peo/upload_ie3wmmtcge2tcyrrgyzdambqgayde_181x162.jpg" alt=""></li>
-      <li class="animated fadeIn"><img src="../assets/img-peo/upload_ifqtcnbtgi2tcyrrgyzdambqgyyde_181x162.jpg" alt=""></li>
-      <li class="animated fadeIn"><img src="../assets/img-peo/upload_ifrdkntcgi2tcyrrgyzdambqmeyde_181x162.jpg" alt=""></li>
-      <li class="animated fadeIn"><img src="../assets/img-peo/upload_ifqtsojtgm2tcyrrgyzdambqgyyde_181x162.jpg" alt=""></li>
-      <li class="animated fadeIn"><img src="../assets/img-peo/upload_ie4giylcgm2tcyrrgyzdambqgiyde_181x162.jpg" alt=""></li>
-      <li class="animated fadeIn"><img src="../assets/img-peo/upload_ie3tayztgq2tcyrrgyzdambqgayde_181x162.jpg" alt=""></li>
+      <li class="animated fadeIn" v-for="item in imgUrl.indexList"><img :src=item alt=""></li>
     </ul>
     <footer>
       <div id="start" class="animated fadeIn" @click="start"></div>
@@ -22,11 +17,13 @@
 
 <script>
 import GridEvents from '../event.js'
+import img from '../img.js'
 
   export default {
     data () {
       return {
         isActive: this.indexShow,
+        imgUrl: img
       }
     },
     props: {

@@ -1,11 +1,11 @@
 <template>
-    <div class="facegame">
-      <!-- $emit -->
-      <Index @change='change'></Index>
-      <!-- watch -->
-      <Stage :indexShow='indexShow' @maskShow='maskShow'></Stage>
-      <Maskdark v-show="fail"></Maskdark>
-    </div>
+  <div class="facegame">
+    <!-- $emit -->
+    <Index @change='change'></Index>
+    <!-- watch -->
+    <Stage :indexShow='indexShow' @maskShow='maskShow'></Stage>
+    <Maskdark v-show="fail"></Maskdark>
+  </div>
 </template>
 
 <script>
