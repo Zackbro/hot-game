@@ -71,7 +71,7 @@ import img from '../img.js'
     width: 100%;
     height: 102px;
     vertical-align: middle;
-    background-image: url(../assets/img-bg/upload_ie4wmmrymvsdcyrrgyzdambqgqyde_640x189.png);
+    background-image: url(../../static/img-bg/upload_ie4wmmrymvsdcyrrgyzdambqgqyde_640x189.png);
     background-position: center center;
   }
   .sub-title {
@@ -86,11 +86,11 @@ import img from '../img.js'
   }
   .she {
     margin-top: 100px;
-    background-image: url(../assets/img-bg/upload_ie4wkntggzsdcyrrgyzdambqgqyde_255x51.png);
+    background-image: url(../../static/img-bg/upload_ie4wkntggzsdcyrrgyzdambqgqyde_255x51.png);
   }
   .she-up {
     height: 34px;
-    background-image: url(../assets/img-bg/upload_ifqtqojvmnsdcyrrgyzdambqgyyde_255x51.png);
+    background-image: url(../../static/img-bg/upload_ifqtqojvmnsdcyrrgyzdambqgyyde_255x51.png);
   }
   .girls {
     text-align: center;
@@ -127,7 +127,7 @@ import img from '../img.js'
    text-align: center;
  }
  #start {
-  background-image: url(../assets/img-bg/upload_ie4wkytgg43teyrrgyzdamjqgqyde_366x141.png);
+  background-image: url(../../static/img-bg/upload_ie4wkytgg43teyrrgyzdamjqgqyde_366x141.png);
   width: 187px;
   height: 68px;
   background-size: contain;

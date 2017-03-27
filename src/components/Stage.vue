@@ -20,7 +20,7 @@
       </dl>
     </div>
     <div class="game" v-show="gameShow">
-    <img :src=imgUrl.gameFont class="font-last"/>
+      <img :src=imgUrl.gameFont class="font-last"/>
       <ul class="avatar-list">
         <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""><div class="wrong" style="display: none"></div></li>
       </ul>
@@ -114,22 +114,21 @@
               if (typeof(callback) === 'function') callback();
             }
           } else {
-                // 让时间等于5
-                that.$refs[time].innerHTML = variant;
-                that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
-                variant--;
-                type = setTimeout(progress, 1000);
-              }
-            }
-            progress();
-          },
-          showGame: function() {
-            this.stageShow = true;
-            this.gameShow = true;
-            let temp = this.chooseGirl.list;
-            this.listChange = this.randomOrder(temp);
-            this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
-          },
+            that.$refs[time].innerHTML = variant;
+            that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
+            variant--;
+            type = setTimeout(progress, 1000);
+          }
+        }
+        progress();
+      },
+      showGame: function() {
+        this.stageShow = true;
+        this.gameShow = true;
+        let temp = this.chooseGirl.list;
+        this.listChange = this.randomOrder(temp);
+        this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
+      },
       // easy 随机排序， 
       randomOrder: function(targetArray) {
         var arrayLength = targetArray.length;
