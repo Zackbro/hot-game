@@ -39,9 +39,9 @@
 </template>
 
 <script>
-  import GridEvents from '../event.js'
-  import img from '../img.js'
-  import {stageArray, bisai, fontArray} from '../constant.js'
+import GridEvents from '../event.js'
+import img from '../img.js'
+import {stageArray, bisai, fontArray} from '../constant.js'
 
   let see;
   let timeLeft;
@@ -83,12 +83,13 @@
       maskShow(val) {
        this.$emit('maskShow', val);
      }
-   },
-   mounted() {
-      GridEvents.$on('start', () => { //GridEvent接收事件
+    },
+    mounted() {
+      // GridEvent接收事件
+      GridEvents.$on('start', () => {
         this.play();
       });
-      GridEvents.$on('replay', () => { //GridEvent接收事件
+      GridEvents.$on('replay', () => { 
         this.maskShow = false;
         this.stageShow = false;
         this.gameShow = false;
@@ -98,7 +99,7 @@
     methods: {
       // 进度条
       progressTimeOut: function (variant, total, progressBoxId, time, type, callback) {
-        var that = this;
+        let that = this;
         function progress() {
           if (variant < 0 || stopTimeout) {
             clearTimeout(type);
@@ -129,20 +130,20 @@
         this.listChange = this.randomOrder(temp);
         this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
       },
-      // easy 随机排序， 
+      // 随机排序， 
       randomOrder: function(targetArray) {
-        var arrayLength = targetArray.length;
-        var tempArray1 = [];
-        for (var i = 0; i < arrayLength; i++) {
+        let arrayLength = targetArray.length;
+        let tempArray1 = [];
+        for (let i = 0; i < arrayLength; i++) {
           tempArray1[i] = i
         }
         // 将每一项的选项打乱
-        var tempArray2 = [];
-        for (var i = 0; i < arrayLength; i++) {
+        let tempArray2 = [];
+        for (let i = 0; i < arrayLength; i++) {
           tempArray2[i] = tempArray1.splice(Math.floor(Math.random() * tempArray1.length), 1)
         }
-        var tempArray3 = [];
-        for (var i = 0; i < arrayLength; i++) {
+        let tempArray3 = [];
+        for (let i = 0; i < arrayLength; i++) {
           tempArray3[i] = targetArray[tempArray2[i]]
         }
         return tempArray3
@@ -201,7 +202,6 @@
  }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .gamestage {
     margin-bottom: 70px;
