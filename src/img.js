@@ -4,7 +4,8 @@ const imgUrl = {
 	di: '../static/img-peo/upload_ifrdazjvg42dkyrrgyzdambqmeyde_91x85.png',
 	guan: '../static/img-peo/upload_ifrdcytfg42dkyrrgyzdambqmeyde_85x85.png',
 	stage: '../static/img-peo/upload_ie4dgmlbhfsdcyrrgyzdambqgiyde_440x118.png',
-	second: '../static/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png'
+	second: '../static/img-peo/upload_ie4dkm3fmjqteyrrgyzdambqgiyde_524x25.png',
+	gameFont: '../static/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png'
 }
 
 

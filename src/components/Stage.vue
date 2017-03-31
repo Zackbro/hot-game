@@ -20,7 +20,7 @@
       </dl>
     </div>
     <div class="game" v-show="gameShow">
-      <img src="../assets/img-peo/upload_ie3tayjthbsdcyrrgyzdambqgayde_394x52.png" class="font-last"/>
+      <img :src=imgUrl.gameFont class="font-last"/>
       <ul class="avatar-list">
         <li @click="compare(item)" v-for="item in listChange"><img :src=item alt=""><div class="wrong" style="display: none"></div></li>
       </ul>
@@ -39,9 +39,9 @@
 </template>
 
 <script>
-  import GridEvents from '../event.js'
-  import img from '../img.js'
-  import {stageArray, bisai, fontArray} from '../constant.js'
+import GridEvents from '../event.js'
+import img from '../img.js'
+import {stageArray, bisai, fontArray} from '../constant.js'
 
   let see;
   let timeLeft;
@@ -83,12 +83,13 @@
       maskShow(val) {
        this.$emit('maskShow', val);
      }
-   },
-   mounted() {
-      GridEvents.$on('start', () => { //GridEvent接收事件
+    },
+    mounted() {
+      // GridEvent接收事件
+      GridEvents.$on('start', () => {
         this.play();
       });
-      GridEvents.$on('replay', () => { //GridEvent接收事件
+      GridEvents.$on('replay', () => { 
         this.maskShow = false;
         this.stageShow = false;
         this.gameShow = false;
@@ -98,7 +99,7 @@
     methods: {
       // 进度条
       progressTimeOut: function (variant, total, progressBoxId, time, type, callback) {
-        var that = this;
+        let that = this;
         function progress() {
           if (variant < 0 || stopTimeout) {
             clearTimeout(type);
@@ -114,36 +115,35 @@
               if (typeof(callback) === 'function') callback();
             }
           } else {
-                // 让时间等于5
-                that.$refs[time].innerHTML = variant;
-                that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
-                variant--;
-                type = setTimeout(progress, 1000);
-              }
-            }
-            progress();
-          },
-          showGame: function() {
-            this.stageShow = true;
-            this.gameShow = true;
-            let temp = this.chooseGirl.list;
-            this.listChange = this.randomOrder(temp);
-            this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
-          },
-      // easy 随机排序， 
+            that.$refs[time].innerHTML = variant;
+            that.$refs[progressBoxId].style.left = ( - (1 - variant / total) * 100) + '%';
+            variant--;
+            type = setTimeout(progress, 1000);
+          }
+        }
+        progress();
+      },
+      showGame: function() {
+        this.stageShow = true;
+        this.gameShow = true;
+        let temp = this.chooseGirl.list;
+        this.listChange = this.randomOrder(temp);
+        this.progressTimeOut(this.gameTime, this.totalGame, 'timeProgress', 'timeSecondBox', timeLeft, this.fail)
+      },
+      // 随机排序， 
       randomOrder: function(targetArray) {
-        var arrayLength = targetArray.length;
-        var tempArray1 = [];
-        for (var i = 0; i < arrayLength; i++) {
+        let arrayLength = targetArray.length;
+        let tempArray1 = [];
+        for (let i = 0; i < arrayLength; i++) {
           tempArray1[i] = i
         }
         // 将每一项的选项打乱
-        var tempArray2 = [];
-        for (var i = 0; i < arrayLength; i++) {
+        let tempArray2 = [];
+        for (let i = 0; i < arrayLength; i++) {
           tempArray2[i] = tempArray1.splice(Math.floor(Math.random() * tempArray1.length), 1)
         }
-        var tempArray3 = [];
-        for (var i = 0; i < arrayLength; i++) {
+        let tempArray3 = [];
+        for (let i = 0; i < arrayLength; i++) {
           tempArray3[i] = targetArray[tempArray2[i]]
         }
         return tempArray3
@@ -202,7 +202,6 @@
  }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .gamestage {
     margin-bottom: 70px;

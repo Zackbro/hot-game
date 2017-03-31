@@ -17,8 +17,8 @@
 </template>
 
 <script>
-  import GridEvents from '../event.js'
-  import {stageArray, bisai, fontArray} from '../constant.js'
+import GridEvents from '../event.js'
+import {stageArray, bisai, fontArray} from '../constant.js'
 
   export default {
     data() {
@@ -30,6 +30,21 @@
         }
       }
     },
+    mounted() {
+    	//GridEvent接收事件
+      GridEvents.$on('maskNumber', (stage, right) => { 
+        // 获得正确的答案
+        this.rightResult.url = right;
+        if (stage >= 1 && stage <= 10) {
+          this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
+        } else if (stage >= 11 && stage <= 22) {
+        // replace报错
+        this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
+      	} else if(stage >22){
+        	this.font = fontArray.hard[0];
+      	}
+    	});
+    },
     methods: {
       replay: function () {
         this.rightResult.show = false;
@@ -38,25 +53,10 @@
       showResult: function () {
         this.rightResult.show = true;
       }
-    },
-    mounted() {
-      GridEvents.$on('maskNumber', (stage, right) => { //GridEvent接收事件
-        // 获得正确的答案
-        this.rightResult.url = right;
-        if (stage >= 1 && stage <= 10) {
-          this.font = fontArray.easy[Math.floor(Math.random() * 3)].replace('X', stage);
-        } else if (stage >= 11 && stage <= 22) {
-        // replace报错
-        this.font = fontArray.normal[Math.floor(Math.random() * 3)].replace('X', stage);
-      } else if(stage >22){
-        this.font = fontArray.hard[0];
-      }
-    });     
-    },
+    }
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .share-bg {
     position: absolute;

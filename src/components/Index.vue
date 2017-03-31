@@ -1,16 +1,16 @@
 <template>
-  <div class="gamestart" id="gamestart" v-show="isActive">
+  <div class="gamestart" v-show="isActive">
     <div class="title"></div>
     <div class="sub-title she"></div>
     <div class="girls">
       <img :src=imgUrl.indexGroup class="group-girls"/>
     </div>   
     <div class="sub-title animated fadeIn she-up"></div>
-    <ul class="photo-list" id="photo-list">
+    <ul class="photo-list">
       <li class="animated fadeIn" v-for="item in imgUrl.indexList"><img :src=item alt=""></li>
     </ul>
     <footer>
-      <div id="start" class="animated fadeIn" @click="start"></div>
+      <div class="start animated fadeIn" @click="start"></div>
     </footer>
   </div>
 </template>
@@ -49,7 +49,6 @@ import img from '../img.js'
   }
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
   .show {
     display: block;
@@ -71,7 +70,7 @@ import img from '../img.js'
     width: 100%;
     height: 102px;
     vertical-align: middle;
-    background-image: url(../assets/img-bg/upload_ie4wmmrymvsdcyrrgyzdambqgqyde_640x189.png);
+    background-image: url(../../static/img-bg/upload_ie4wmmrymvsdcyrrgyzdambqgqyde_640x189.png);
     background-position: center center;
   }
   .sub-title {
@@ -86,11 +85,11 @@ import img from '../img.js'
   }
   .she {
     margin-top: 100px;
-    background-image: url(../assets/img-bg/upload_ie4wkntggzsdcyrrgyzdambqgqyde_255x51.png);
+    background-image: url(../../static/img-bg/upload_ie4wkntggzsdcyrrgyzdambqgqyde_255x51.png);
   }
   .she-up {
     height: 34px;
-    background-image: url(../assets/img-bg/upload_ifqtqojvmnsdcyrrgyzdambqgyyde_255x51.png);
+    background-image: url(../../static/img-bg/upload_ifqtqojvmnsdcyrrgyzdambqgyyde_255x51.png);
   }
   .girls {
     text-align: center;
@@ -125,71 +124,67 @@ import img from '../img.js'
   }
   footer {
    text-align: center;
- }
- #start {
-  background-image: url(../assets/img-bg/upload_ie4wkytgg43teyrrgyzdamjqgqyde_366x141.png);
-  width: 187px;
-  height: 68px;
-  background-size: contain;
-  background-repeat: no-repeat;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.animated {
-  -webkit-animation-duration: 1s;
-  animation-duration: 1s;
-  -webkit-animation-fill-mode: both;
-  animation-fill-mode: both;
-}
-.fadeIn {
-  -webkit-animation-name: fadeIn;
-  animation-name: fadeIn;
-}
-
-@-webkit-keyframes fadeIn {
-  from {
-    opacity: 0
+  }
+  .start {
+    background-image: url(../../static/img-bg/upload_ie4wkytgg43teyrrgyzdamjqgqyde_366x141.png);
+    width: 187px;
+    height: 68px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    display: inline-block;
+    cursor: pointer;
   }
 
-  to {
-    opacity: 1
+  .animated {
+    -webkit-animation-duration: 1s;
+    animation-duration: 1s;
+    -webkit-animation-fill-mode: both;
+    animation-fill-mode: both;
   }
-}
-
-@keyframes fadeIn {
-  from {
-    opacity: 0
-  }
-
-  to {
-    opacity: 1
-  }
-}
-
-
-@-webkit-keyframes progressbar {
-  from {
-    left: 0
+  .fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
   }
 
-  to {
-    left: -100%
-  }
-}
+  @-webkit-keyframes fadeIn {
+    from {
+      opacity: 0
+    }
 
-@keyframes progressbar {
-  from {
-    left: 0
+    to {
+      opacity: 1
+    }
+  }
+  @keyframes fadeIn {
+    from {
+      opacity: 0
+    }
+
+    to {
+      opacity: 1
+    }
+  }
+  @-webkit-keyframes progressbar {
+    from {
+      left: 0
+    }
+
+    to {
+      left: -100%
+    }
   }
 
-  to {
-    left: -100%
-  }
-}
+  @keyframes progressbar {
+    from {
+      left: 0
+    }
 
-.progressbar {
-  -webkit-animation-name: progressbar;
-  animation-name: progressbar
-}
+    to {
+      left: -100%
+    }
+  }
+  .progressbar {
+    -webkit-animation-name: progressbar;
+    animation-name: progressbar
+  }
 </style>

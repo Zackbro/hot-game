@@ -1,21 +1,20 @@
-# game
+# 认网红脸大赛游戏
 
-> A Vue.js project
+> 用Vue开发的一款小游戏
 
-## Build Setup
+## 项目介绍
+
+* 基于Vue-cli构建的开发环境
+* 这个项目没有用到Vue-router，数据的交互集中在各个组件上，对初学者会有很大的帮助
+* 本项目所有图片素材均来自于认网红脸大赛游戏
+
+## 运行
 
 ``` bash
-# install dependencies
+
 npm install
 
-# serve with hot reload at localhost:8080
 npm run dev
 
-# build for production with minification
 npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
 ```
-
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
