@@ -50,12 +50,6 @@ import img from '../img.js'
 </script>
 
 <style scoped>
-  .show {
-    display: block;
-  }
-  .hide {
-    display: none;
-  }
   li {
     list-style-type: none;
   }
